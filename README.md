@@ -42,11 +42,23 @@ Express에서 제공하는 Request객체는 비동기로 작동하여 처리결�
 ## Puppeteer 
 #### PageUtil.ts
 ```
-PageUtil blablabla
+Puppeteer 모듈을 사용하여 웹 크롤링을 할 수 있도록 각 단계별로 작성해놓은 로직.
+크게 세 단계로 나뉜다.
+1. 링크 이동
+2. 스크립트 인젝팅
+3. 크롤링
+위 세 단계에서 필요에 따라 intercept, interval, dialog, headless 옵션을 조정할 수 있다.
+가장 중요한건 Evaluate 함수인데 인젝팅된 스크립트를 Serializable한 상태로 변환후 파라미터로 넘겨줘야한다.
+쉽게 말해서, 실제로 CSS Selector가 적용될 스크립트파일을 문자열로 넘겨줘야 Evaluate 함수가 작동한다.
 ```
 #### List.ts & Document.ts
 ```
-List,Document.ts blabla
+CSS Selector를 적용할 수 있도록 작성한 스크립트 파일.
+웹 크롤링 과정을 크게 아래와 같은 두 단계로 나눠서 진행했다.
+1. 링크수집
+2. 원문수집
+List.ts와 Document.ts는 각각 링크,원문을 수집할 수 있도록 작성해놓은 인젝팅용 스크립트며
+CSS Selector가 정상적용되면 크롤링 결과들을 취합하여 오브젝트 형태로 반환해주도록 구현했다.
 ```
 *********************************
 ## AWS-SDK
