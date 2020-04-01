@@ -1,0 +1,24 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/App.js",
+  "scripts": {
+    "pre-prod-build": "sudo npm install -g --save forever typescript@3.8.3",
+    "pre-dev-build": "sudo npm install -g --save typescript@3.8.3",
+    "dev-bulid": "npm install -dev && tsc ",
+    "prod-build": "npm install -prod && tsc ",
+    "local-dev": "export NODE_ENV='development' && export DISTRIBUTION_TARGET='local'&& cd dist && node App.js",
+    "local-prod": "export NODE_ENV='production' && export DISTRIBUTION_TARGET='local' && cd dist && node App.js",
+    "ec2-dev": "export NODE_ENV='development' && export DISTRIBUTION_TARGET='ec2' && cd dist && forever start App.js && tail -f /home/ubuntu/.forever/$(forever list | grep App.js | cut -c24-27).log",
+    "ec2-prod": "export NODE_ENV='production' && export DISTRIBUTION_TARGET='ec2' && cd dist && forever start App.js && tail -f /home/ubuntu/.forever/$(forever list | grep App.js | cut -c24-27).log",
+    "forever-tail": "tail -f /home/ubuntu/.forever/$(forever list | grep App.js | cut -c24-27).log",
+    "stop": "cd dist && forever stop App.js && kill -9 `ps -ef | grep node | awk '{print $2}'`",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jay",
+  "license": "",
+  "devDependencies": {},
+  "dependencies": {}
+}
