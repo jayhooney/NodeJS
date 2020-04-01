@@ -123,7 +123,7 @@ Winston 와 Winston-Daily-Rotate-File 모듈을 사용한 로깅 로직.
 #### package.json
 
 ```
-NodeJS 프로그램이 죽지 않도록 백그라운드에서 작동하도록 해주는 모듈.
+NodeJS 프로그램이 죽지 않게 백그라운드에서 작동시켜주는 모듈.
 Package.json 안의 script에 리눅스명령어와 적절히 조합하여 사용하면 지극히 사소하지만 불필요한 노동을 줄일 수 있다.
 전역모듈로 설치하는게 편하다.
 ```
