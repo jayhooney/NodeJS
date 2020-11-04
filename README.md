@@ -44,7 +44,7 @@ Express에서 제공하는 Request객체는 비동기로 작동하여 처리결�
 
 ## FS-Extra
 
-#### FilUtil.ts
+#### FileUtil.ts
 
 ```
 기본적으로 비동기로 작동하는 파일 존재 유무,쓰기,읽기 그리고 지우기 작업을
@@ -69,7 +69,7 @@ Puppeteer 모듈을 사용하여 웹 크롤링을 할 수 있도록 각 단계�
 쉽게 말해서, 실제로 CSS Selector가 적용될 스크립트파일 이름을 문자열로 넘겨줘야 Evaluate 함수가 작동한다.
 ```
 
-#### List.ts & Document.ts
+#### Parser.ts
 
 ```
 CSS Selector를 적용할 수 있도록 작성한 스크립트 파일.
@@ -79,6 +79,17 @@ CSS Selector를 적용할 수 있도록 작성한 스크립트 파일.
 List.ts와 Document.ts는 각각 링크,원문을 수집할 수 있도록 작성해놓은 인젝팅용 스크립트며
 CSS Selector가 정상적용되면 크롤링 결과들을 취합하여 오브젝트 형태로 반환해주도록 구현했다.
 정상적으로 적용되지 않았을 경우엔 정확히 어떤 CSS Selector가 문제인지도 같이 반환한다.
+```
+
+#### List_v2.ts & Document_v2.ts
+
+```
+기존 (List.ts/ Document.ts) 스크립트와 차이점은
+직접 스크립트를 inject하여 크롤링하지 않고 page객체에 $, $$, $eval, $$eval API를 사용해서 크롤링 한다는 것.
+이 방법은 기존 방법대비 유리한 점이 많은데
+1. Log 찍기가 훨 - - - 씬 수월해짐.
+2. addScriptTag API 호출시 간헐적으로 발생하는 예외를 차단할 수 있음. (아예 쓰지 않아도 되기 때문.)
+3. ElementHandler를 반환해주기 때문에 입맛대로 요리할 수 있음.
 ```
 
 ---
