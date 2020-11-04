@@ -1,0 +1,11 @@
+{
+	"name": "my_app",
+	"version": "1.0.0",
+	"main": "{AppName}.js",
+	"scripts": {
+		"ec2-dev": "pm2 start {AppName}.js && tail -f ~/.pm2/logs/{AppName}-out.log ",
+		"ec2-prod": "pm2 start {AppName}.js && tail -f ~/.pm2/logs/{AppName}-out.log ",
+		"log-tail": "tail -f ~/.pm2/logs/{AppName}-out.log "
+	},
+	"author": "Jay",
+}
