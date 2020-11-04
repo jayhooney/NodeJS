@@ -23,7 +23,7 @@ CORS 이슈 처리
 Helmet 모듈 적용
 데이터 수집,분석 웹 서비스를 개발하면서 최소한의 보안은 챙겨야하지 않을까 싶어 알아보다가 아래 문서를 읽게 됐다.
 express 는 helmet과 좋은 연동성을 가지고 있어서 바로 적용!
-아래 참고링크의 가이드를 가급적 따르려고 노력했다.
+아래 참고링크의 가이드를 따르려고 노력했다.
 ```
 
 > 참고 : <https://expressjs.com/ko/advanced/best-practice-security.html>
@@ -143,6 +143,11 @@ Winston 와 Winston-Daily-Rotate-File 모듈을 사용한 로깅 로직.
 화면에 어떻게 로그를 출력할지, 어떻게 저장해서 어떻게 관리할지 등등을 설정을 통해 커스터마이징할 수 있다.
 ```
 
+```
+Error: EMFILE, too many open files 이슈
+logger를 동적으로 할당할 때 \*.log 파일에 write 작업 후 해당 stream이 자동으로 close 되지 않아서 서버,수집기가 죽는 이슈가 있었다. 문제를 찾아보니 logger는 정적 인스턴스로 활용해야한다고 한다. 그래서 tatic으로 선언해버리니 깔끔하게 해결됐다.
+```
+
 ---
 
 ## Forever
@@ -152,7 +157,6 @@ Winston 와 Winston-Daily-Rotate-File 모듈을 사용한 로깅 로직.
 ```
 NodeJS 프로그램이 죽지 않게 백그라운드에서 작동시켜주는 모듈.
 Package.json 안의 script에 리눅스명령어와 적절히 조합하여 사용하면 지극히 사소하지만 불필요한 노동을 줄일 수 있다.
-전역모듈로 설치하는게 편하다.
 ```
 
 > 참고 <https://www.npmjs.com/package/forever>
