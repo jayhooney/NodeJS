@@ -14,8 +14,19 @@
 CORS 이슈 처리
 서버와 통신하는 웹페이지에서 같은 주소,포트를 사용하지 않을 때 CORS 이슈가 생긴다.
 해당 이슈자체는 cors 라는 모듈을 사용해 해결했는데 보안취약점이 발생하게 된다.
-따라서 이 모듈을 사용할 땐 내가 필요한 옵션이 무엇인지 https://www.npmjs.com/package/cors 이 링크를 통해 확인 후 적절하게 진행해야 한다!
+따라서 이 모듈을 사용할 땐 내가 필요한 옵션이 무엇인지  이 링크를 통해 확인 후 적절하게 진행해야 한다!
 ```
+
+> 참고 : <https://www.npmjs.com/package/cors>
+
+```
+Helmet 모듈 적용
+데이터 수집,분석 웹 서비스를 개발하면서 최소한의 보안은 챙겨야하지 않을까 싶어 알아보다가 아래 문서를 읽게 됐다.
+express 는 helmet과 좋은 연동성을 가지고 있어서 바로 적용!
+아래 참고링크의 가이드를 가급적 따르려고 노력했다.
+```
+
+> 참고 : <https://expressjs.com/ko/advanced/best-practice-security.html>
 
 #### Server.ts & RouterMap.ts
 
@@ -56,6 +67,8 @@ Promise를 반환받아 처리결과를 보장받고 다음 작업을 진행하�
 
 ## Puppeteer
 
+> Puppeteer 공식문서 : <https://pptr.dev/>
+
 #### PageUtil.ts
 
 ```
@@ -69,7 +82,7 @@ Puppeteer 모듈을 사용하여 웹 크롤링을 할 수 있도록 각 단계�
 쉽게 말해서, 실제로 CSS Selector가 적용될 스크립트파일 이름을 문자열로 넘겨줘야 Evaluate 함수가 작동한다.
 ```
 
-#### Parser.ts
+#### List.ts & Document.ts
 
 ```
 CSS Selector를 적용할 수 있도록 작성한 스크립트 파일.
@@ -87,9 +100,10 @@ CSS Selector가 정상적용되면 크롤링 결과들을 취합하여 오브젝
 기존 (List.ts/ Document.ts) 스크립트와 차이점은
 직접 스크립트를 inject하여 크롤링하지 않고 page객체에 $, $$, $eval, $$eval API를 사용해서 크롤링 한다는 것.
 이 방법은 기존 방법대비 유리한 점이 많은데
-1. Log 찍기가 훨 - - - 씬 수월해짐.
+1. Log 찍기가 훨-씬 수월해짐.
 2. addScriptTag API 호출시 간헐적으로 발생하는 예외를 차단할 수 있음. (아예 쓰지 않아도 되기 때문.)
 3. ElementHandler를 반환해주기 때문에 입맛대로 요리할 수 있음.
+4. 콜백함수에서 모든걸 해결하지 않아도 되니까 코드가 간결해지고 가독성 좋아짐!
 ```
 
 ---
@@ -103,6 +117,8 @@ aws-sdk 모듈을 사용하여 파일(텍스트,이미지 등)을 S3에 업로�
 이 또한 native promise를 지원해준다. 순차적 처리가 필요하다면 promise() 함수를 이용해서 then,catch 체인을 사용할수 있다!
 추가로, S3말고도 SQS등 더 다양한 서비스에 대한 API도 있으니 필요 목적에 따라 찾아쓰면 되겠다!
 ```
+
+> 참고 : <https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/sdk-code-samples.html>
 
 ---
 
@@ -139,6 +155,8 @@ Package.json 안의 script에 리눅스명령어와 적절히 조합하여 사�
 전역모듈로 설치하는게 편하다.
 ```
 
+> 참고 <https://www.npmjs.com/package/forever>
+
 ---
 
 ## PM2
@@ -150,7 +168,8 @@ NodeJS 프로그램이 죽지 않게 백그라운드에서 작동시켜주는 �
 forever 모듈과 비교하면 모니터링, 로드 밸런서 기능이 포함되어 있다는 점인데.
 수백 개의 크롤러를 모니터링하면서 지쳐가던 때 이걸로 모니터링 시간을 꽤나 줄일 수 있을것 같아 과감히 forever 에서 pm2로 갈아타기로 했다!
 마찬가지로 전역으로 설치해서 사용하며 tail 명령어로 실시간 로그를 확인할 땐 package.json에 스크립트로 작성해놓고 사용하면 편리하다!
-(공식문서: https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/)
 ```
+
+> 참고 <https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/>
 
 ---

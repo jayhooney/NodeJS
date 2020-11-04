@@ -20,34 +20,34 @@ export class LogUtil {
     .toUpperCase()}_LOG`;
   private mNodeEnv = process.env.NODE_ENV;
 
-  public logger = (_moduleName: string) =>
+  public static logger = (_moduleName: string) =>
     createLogger({
       // 공통 옵션
       format: format.combine(
-        format(info => {
+        format((info) => {
           info.level = info.level.toUpperCase().padStart(5, " ");
           return info;
         })(),
         format.colorize({
-          all: true
+          all: true,
         }),
         format.label({
           label: `${Path.basename(_moduleName)
             .replace(".js", "")
-            .padStart(12, " ")}`
+            .padStart(12, " ")}`,
         }),
         format.timestamp({
-          format: "HH:mm:ss"
+          format: "HH:mm:ss",
         }),
         format.printf(
-          info =>
+          (info) =>
             `| ${info.level} | ${info.timestamp} | ${info.label} >>> ${info.message} `
         )
       ),
       transports: [
         // 로그 출력 설정
         new transports.Console({
-          level: this.mNodeEnv === "development" ? "debug" : "info"
+          level: this.mNodeEnv === "development" ? "debug" : "info",
         }),
         // 로그 파일 설정
         new WinstonDaily({
@@ -57,9 +57,9 @@ export class LogUtil {
             .replace(".js", "")
             .toUpperCase()}_%DATE%.log`,
           datePattern: "YYYY-MM-DD",
-          maxFiles: "30d"
-        })
-      ]
+          maxFiles: "30d",
+        }),
+      ],
     });
 }
 
