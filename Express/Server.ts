@@ -2,6 +2,7 @@ import Express from "express";
 import BodyParser from "body-parser";
 import Http from "http";
 import Cors from "cors";
+import Helmet from "helmet";
 import { LogUtil } from "../util/LogUtil";
 import { IpUtil } from "../util/IpUtil";
 import { routerMap } from "./RouterMap";
@@ -15,16 +16,21 @@ export class Server {
   private CORS_OPTIONS = {
     origin: "http://Address:Port", // 허락할 주소
     credentials: true, // 설정 내용을 Response 헤더에 추가
-    exposedHeaders: ["propOne", "propTwo"] // 공개할 헤더 요소
+    exposedHeaders: ["propOne", "propTwo"], // 공개할 헤더 요소
   };
 
   private CreateServer = (): void => {
     this.mLogger.info("starting server . . . ");
     this.mServer.use(
       BodyParser.urlencoded({
-        extended: true
+        extended: true,
       })
     );
+
+    this.mServer.use(Helmet());
+    this.mServer.use(Helmet.expectCt());
+    this.mServer.use(Helmet.noCache());
+    this.mServer.use(Helmet.referrerPolicy());
 
     this.mServer.use(Cors(this.CORS_OPTIONS));
     this.mServer.use(BodyParser.json());
@@ -48,7 +54,7 @@ export class Server {
     this.mLogger.info("routing start . . . ");
     const process: Process = new Process();
 
-    routerMap.forEach(router => {
+    routerMap.forEach((router) => {
       const method = router.method;
       const addr = router.addr;
       this.mLogger.debug(`[${method}] listening at ${addr}`);
