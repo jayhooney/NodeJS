@@ -27,6 +27,7 @@ export class Server {
       })
     );
 
+    // helmet 모듈 적용
     this.mServer.use(Helmet());
     this.mServer.use(Helmet.expectCt());
     this.mServer.use(Helmet.noCache());
